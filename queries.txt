@@ -1,0 +1,40 @@
+-- highest earning products types
+SELECT products.product_type,
+	   SUM(transactions.sales_amount) AS total_sales_of_type,
+       COUNT(*) AS transactions_per_type
+FROM sales.transactions
+LEFT JOIN sales.products ON transactions.product_code=products.product_code
+GROUP BY products.product_type
+ORDER BY total_sales_of_type DESC;
+
+
+-- highest earning markets
+SELECT markets.markets_name
+	   SUM(transactions.sales_amount) AS total_sales_of_market,
+       COUNT(*) AS transactions_per_market
+FROM sales.transactions
+LEFT JOIN sales.transactions ON transactions.market_code=markets.market_code
+GROUP BY markets.markets_name
+ORDER BY total_sales_of_market DESC;
+
+
+#total number of transactions
+SELECT COUNT(*) FROM sales.transactions;
+
+#total customers
+SELECT distinct COUNT(customers.custmer_name) AS total_customers
+FROM sales.customers;
+
+#total sales made
+SELECT SUM(transactions.sales_amount) AS total_sales
+FROM sales.transactions;
+
+
+-- top earning clients with number of transactions and sales
+SELECT customers.custmer_name, 
+       SUM(transactions.sales_amount) AS total_sales_of_customer, 
+       COUNT(*) AS number_of_transactions
+FROM sales.transactions
+LEFT JOIN sales.customers ON transactions.customer_code = customers.customer_code
+GROUP BY customers.custmer_name
+ORDER BY total_sales_of_customer DESC;
